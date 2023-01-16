@@ -1,2 +1,2 @@
 # engineering-training
-Training round 2
+Engineering Training
