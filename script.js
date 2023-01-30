@@ -9,4 +9,7 @@ modalButton.addEventListener("click", function () {
   modalContainer.classList.toggle("hidden");
 });
 
-console.log("closeModalButton", closeModalButton);
+closeModalButton[0].addEventListener("click", function () {
+  console.log("Clicked Close Modal Button!");
+  modalContainer.classList.toggle("hidden");
+});
