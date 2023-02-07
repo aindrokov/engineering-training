@@ -11,7 +11,11 @@ const jiraTitles = [
   "JavaScript: Event Listeners - Add Toggle Button Inside of Modal",
   "JavaScript: Functions - Write a function to toggle hidden class on modal",
 ];
-console.log("jiraTitles", jiraTitles);
+
+const iterateJiraTitles = jiraTitles.forEach((title) => {
+  console.log(title);
+});
+//console.log("jiraTitles", jiraTitles);
 
 const jiraLinks = [
   "https://totalwine.atlassian.net/browse/TT-2",
@@ -20,7 +24,11 @@ const jiraLinks = [
   "https://totalwine.atlassian.net/browse/TT-18",
   "https://totalwine.atlassian.net/browse/TT-19",
 ];
-console.log("jiraLinks", jiraLinks);
+//console.log("jiraLinks", jiraLinks);
+
+const iterateJiraLinks = jiraLinks.forEach((link) => {
+  console.log(link);
+});
 
 modalButton.addEventListener("click", function () {
   console.log("Clicked Button!");
