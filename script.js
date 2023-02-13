@@ -39,3 +39,13 @@ closeModalButton[0].addEventListener("click", function () {
   console.log("Clicked Close Modal Button!");
   modalContainer.classList.toggle("hidden");
 });
+
+const jiraObject = [];
+for (let i = 0; i < jiraTitles.length; i++) {
+  jiraObject.push({
+    title: jiraTitles[i],
+    link: jiraLinks[i],
+  });
+}
+
+console.log("jiraObject", jiraObject);
