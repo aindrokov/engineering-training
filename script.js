@@ -43,8 +43,8 @@ closeModalButton[0].addEventListener("click", function () {
 const jiraObject = [];
 for (let i = 0; i < jiraTitles.length; i++) {
   jiraObject.push({
-    title: jiraTitles[i],
     link: jiraLinks[i],
+    title: jiraTitles[i],  
   });
 }
 
