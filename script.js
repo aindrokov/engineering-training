@@ -15,7 +15,6 @@ const jiraTitles = [
 const iterateJiraTitles = jiraTitles.forEach((title) => {
   console.log(title);
 });
-//console.log("jiraTitles", jiraTitles);
 
 const jiraLinks = [
   "https://totalwine.atlassian.net/browse/TT-2",
@@ -24,7 +23,6 @@ const jiraLinks = [
   "https://totalwine.atlassian.net/browse/TT-18",
   "https://totalwine.atlassian.net/browse/TT-19",
 ];
-//console.log("jiraLinks", jiraLinks);
 
 const iterateJiraLinks = jiraLinks.forEach((link) => {
   console.log(link);
@@ -48,4 +46,10 @@ for (let i = 0; i < jiraTitles.length; i++) {
   });
 }
 
-console.log("jiraObject", jiraObject);
+var listElement = document.getElementsByClassName("grid-container");
+
+jiraObject.forEach((object) => {
+  console.log(object);
+  var listItem = document.createElement("li");
+  listElement[0].prepend(listItem);
+});
