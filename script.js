@@ -51,5 +51,6 @@ var listElement = document.getElementsByClassName("grid-container");
 jiraObject.forEach((object) => {
   console.log(object);
   var listItem = document.createElement("li");
-  listElement[0].prepend(listItem);
+  listItem.innerHTML = `<li class="grid-item"><i class="bi bi-check-circle-fill"></i><a href="${object.link}">${object.title}</a>`;
+  listElement[0].append(listItem);
 });
