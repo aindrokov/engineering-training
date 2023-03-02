@@ -28,9 +28,17 @@ const iterateJiraLinks = jiraLinks.forEach((link) => {
   console.log(link);
 });
 
+function loadData() {
+  setTimeout(() => {
+    console.log("data loaded");
+  }
+  , 1000);
+}
+
 modalButton.addEventListener("click", function () {
   console.log("Clicked Button!");
   modalContainer.classList.toggle("hidden");
+  loadData();
 });
 
 closeModalButton[0].addEventListener("click", function () {
