@@ -28,11 +28,20 @@ const iterateJiraLinks = jiraLinks.forEach((link) => {
   console.log(link);
 });
 
-function loadData() {
-  setTimeout(() => {
+function loadData() { setTimeout(function() {
+  renderData();
     console.log("data loaded");
-  }
-  , 1000);
+  }, 1.0*1000);
+};
+
+function renderData() {
+  jiraObject.forEach((object) => {
+    console.log(object);
+    var listItem = document.createElement("li");
+    listItem.innerHTML = `<li class="grid-item"><i class="bi bi-check-circle-fill"></i><a href="${object.link}">${object.title}</a>`;
+    listElement[0].append(listItem);
+    modalContainer.classList.toggle("hidden");
+  });
 }
 
 modalButton.addEventListener("click", function () {
@@ -55,10 +64,3 @@ for (let i = 0; i < jiraTitles.length; i++) {
 }
 
 var listElement = document.getElementsByClassName("grid-container");
-
-jiraObject.forEach((object) => {
-  console.log(object);
-  var listItem = document.createElement("li");
-  listItem.innerHTML = `<li class="grid-item"><i class="bi bi-check-circle-fill"></i><a href="${object.link}">${object.title}</a>`;
-  listElement[0].append(listItem);
-});
