@@ -63,9 +63,10 @@ function renderData() {
   return new Promise((resolve) => {
     let response = "";
     jiraObject.forEach((object) => {
+      const { link, title } = object;
       response += `<li>
             <i class="bi bi-check-circle-fill"></i>
-            <a href="${object.link}">${object.title}</a>
+            <a href="${link}">${title}</a>
           </li>`;
     });
     resolve(response);
