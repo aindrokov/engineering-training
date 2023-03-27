@@ -28,6 +28,8 @@ const iterateJiraLinks = jiraLinks.forEach((link) => {
   console.log(link);
 });
 
+var listElement = document.getElementsByClassName("grid-container");
+
 function loadData() { setTimeout(function() {
   renderData().then((response) => {
     listElement[0].innerHTML = response;
@@ -57,14 +59,11 @@ for (let i = 0; i < jiraTitles.length; i++) {
   });
 }
 
-var listElement = document.getElementsByClassName("grid-container");
-
 function renderData() {
   return new Promise((resolve) => {
     let response = "";
     jiraObject.forEach((object) => {
       response += `<li>
-            <i class="bi bi-x"></i>
             <i class="bi bi-check-circle-fill"></i>
             <a href="${object.link}">${object.title}</a>
           </li>`;
