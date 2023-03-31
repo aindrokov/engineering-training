@@ -30,8 +30,11 @@ const iterateJiraLinks = jiraLinks.forEach((link) => {
 
 var listElement = document.getElementsByClassName("grid-container");
 
+let dataLoaded = false;
+
 function loadData() { setTimeout(function() {
   renderData().then((response) => {
+    dataLoaded = true;
     listElement[0].innerHTML = response;
     modalContainer.classList.toggle("hidden");
     console.log("data loaded");
@@ -41,6 +44,9 @@ function loadData() { setTimeout(function() {
 };
 
 modalButton.addEventListener("click", function () {
+  if (dataLoaded === true) {
+    return;
+  }
   console.log("Clicked Button!");
   modalContainer.classList.toggle("hidden");
   loadData();
