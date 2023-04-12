@@ -32,16 +32,32 @@ var listElement = document.getElementsByClassName("grid-container");
 
 let dataLoaded = false;
 
-function loadData() { setTimeout(function() {
-  renderData().then((response) => {
-    dataLoaded = true;
-    listElement[0].innerHTML = response;
-    modalContainer.classList.toggle("hidden");
-    console.log("data loaded");
-    return response;
-  });
-}, 1000);
-};
+const utils = {
+  renderData: function () {
+    return new Promise((resolve) => {
+      let response = "";
+      jiraObject.forEach((object) => {
+        const { link, title } = object;
+        response += `<li>
+            <i class="bi bi-check-circle-fill"></i>
+            <a href="${link}">${title}</a>
+          </li>`;
+      });
+      resolve(response);
+    });
+  },
+  loadData: function () {
+    setTimeout(function () {
+      utils.renderData().then((response) => {
+        dataLoaded = true;
+        listElement[0].innerHTML = response;
+        modalContainer.classList.toggle("hidden");
+        console.log("data loaded");
+        return response;
+      });
+    }, 1000);
+  }
+}
 
 modalButton.addEventListener("click", function () {
   if (dataLoaded === true) {
@@ -49,7 +65,7 @@ modalButton.addEventListener("click", function () {
   }
   console.log("Clicked Button!");
   modalContainer.classList.toggle("hidden");
-  loadData();
+  utils.loadData();
 });
 
 closeModalButton[0].addEventListener("click", function () {
@@ -62,19 +78,5 @@ for (let i = 0; i < jiraTitles.length; i++) {
   jiraObject.push({
     link: jiraLinks[i],
     title: jiraTitles[i],  
-  });
-}
-
-function renderData() {
-  return new Promise((resolve) => {
-    let response = "";
-    jiraObject.forEach((object) => {
-      const { link, title } = object;
-      response += `<li>
-            <i class="bi bi-check-circle-fill"></i>
-            <a href="${link}">${title}</a>
-          </li>`;
-    });
-    resolve(response);
   });
 }
