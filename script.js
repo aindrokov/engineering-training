@@ -32,6 +32,15 @@ var listElement = document.getElementsByClassName("grid-container");
 
 let dataLoaded = false;
 
+class JiraHandler {
+  constructor(links, titles) {
+    this.links = links;
+    this.titles = titles;
+  }
+}
+
+const jiraHandler = new JiraHandler(jiraLinks, jiraTitles);
+
 const utils = {
   renderData: function () {
     return new Promise((resolve) => {
@@ -74,9 +83,9 @@ closeModalButton[0].addEventListener("click", function () {
 });
 
 const jiraObject = [];
-for (let i = 0; i < jiraTitles.length; i++) {
+for (let i = 0; i < jiraHandler.titles.length; i++) {
   jiraObject.push({
-    link: jiraLinks[i],
-    title: jiraTitles[i],  
+    link: jiraHandler.links[i],
+    title: jiraHandler.titles[i],  
   });
 }
