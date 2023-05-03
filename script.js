@@ -36,7 +36,17 @@ class JiraHandler {
   constructor(links, titles) {
     this.links = links;
     this.titles = titles;
+    this.jirasObject = [];
+    this.createJiraObject();
   }
+    createJiraObject() {
+      for (let i = 0; i < this.titles.length; i++) {
+        this.jirasObject.push({
+          link: this.links[i],
+          title: this.titles[i],
+        });
+      }
+    }
 }
 
 const jiraHandler = new JiraHandler(jiraLinks, jiraTitles);
@@ -45,7 +55,7 @@ const utils = {
   renderData: function () {
     return new Promise((resolve) => {
       let response = "";
-      jiraObject.forEach((object) => {
+      jirasObject.forEach((object) => {
         const { link, title } = object;
         response += `<li>
             <i class="bi bi-check-circle-fill"></i>
@@ -82,9 +92,9 @@ closeModalButton[0].addEventListener("click", function () {
   modalContainer.classList.toggle("hidden");
 });
 
-const jiraObject = [];
+const jirasObject = [];
 for (let i = 0; i < jiraHandler.titles.length; i++) {
-  jiraObject.push({
+  jirasObject.push({
     link: jiraHandler.links[i],
     title: jiraHandler.titles[i],  
   });
