@@ -59,9 +59,9 @@ const utils = {
     return new Promise((resolve) => {
       let response = "";
       jirasObject.forEach((object) => {
-        const { link, title } = object;
+        const { link, title, icon} = object;
         response += `<li>
-            <i class="${jiraTemplate.icon}"></i>
+            <i class="${icon}"></i>
             <a href="${link}">${title}</a>
           </li>`;
       });
@@ -100,5 +100,6 @@ for (let i = 0; i < jiraHandler.titles.length; i++) {
   jirasObject.push({
     link: jiraHandler.links[i],
     title: jiraHandler.titles[i],
+    ...jiraTemplate,
   });
 }
