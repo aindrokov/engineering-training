@@ -1,105 +1,47 @@
-console.log("Engineering Training!");
+console.log("script.js loaded");
 
-const modalButton = document.getElementById("modalButton");
-const modalContainer = document.getElementById("modalContainer");
-const closeModalButton = document.getElementsByClassName("close-modal-button");
+const jirasObject = [
+    {
+        link: "https://totalwine.atlassian.net/browse/TT-2",
+    title: "Create a public repository under your GitHub account",
+  },
 
-const jiraTitles = [
-  "Create a public repository under your GitHub account",
-  "Create a new script file, and import it into index.html and add a console log",
-  "JavaScript: Variables",
-  "JavaScript: Event Listeners - Add Toggle Button Inside of Modal",
-  "JavaScript: Functions - Write a function to toggle hidden class on modal",
-];
+  {
+      link: "https://totalwine.atlassian.net/browse/TT-16",
+    title:
+      "Create a new script file, and import it into index.html and add a console log",
+  },
 
-const iterateJiraTitles = jiraTitles.forEach((title) => {
-  console.log(title);
-});
+  {
+      link: "https://totalwine.atlassian.net/browse/TT-17",
+    title: "JavaScript: Variables",
+  },
 
-const jiraLinks = [
-  "https://totalwine.atlassian.net/browse/TT-2",
-  "https://totalwine.atlassian.net/browse/TT-16",
-  "https://totalwine.atlassian.net/browse/TT-17",
-  "https://totalwine.atlassian.net/browse/TT-18",
-  "https://totalwine.atlassian.net/browse/TT-19",
-];
+  {
+      link: "https://totalwine.atlassian.net/browse/TT-18",
+    title: "JavaScript: Event Listeners - Add Toggle Button Inside of Modal",
+  },
 
-const jiraTemplate = {icon: "bi bi-check-circle-fill"};
-
-const iterateJiraLinks = jiraLinks.forEach((link) => {
-  console.log(link);
-});
-
-var listElement = document.getElementsByClassName("grid-container");
-
-let dataLoaded = false;
-
-class JiraHandler {
-  constructor(links, titles) {
-    this.links = links;
-    this.titles = titles;
-    this.jirasObject = [];
-    this.createJiraObject();
+  {
+      link: "https://totalwine.atlassian.net/browse/TT-19",
+    title:
+      "JavaScript: Functions - Write a function to toggle hidden class on modal",
   }
-    createJiraObject() {
-      for (let i = 0; i < this.titles.length; i++) {
-        this.jirasObject.push({
-          link: this.links[i],
-          title: this.titles[i],
-          ...jiraTemplate,
-        });
-      }
-    }
-}
-
-const jiraHandler = new JiraHandler(jiraLinks, jiraTitles);
+];
 
 const utils = {
-  renderData: function () {
-    return new Promise((resolve) => {
-      let response = "";
-      jirasObject.forEach((object) => {
-        const { link, title, icon} = object;
-        response += `<li>
-            <i class="${icon}"></i>
-            <a href="${link}">${title}</a>
-          </li>`;
-      });
-      resolve(response);
-    });
-  },
-  loadData: function () {
-    setTimeout(function () {
-      utils.renderData().then((response) => {
-        dataLoaded = true;
-        listElement[0].innerHTML = response;
-        modalContainer.classList.toggle("hidden");
-        console.log("data loaded");
-        return response;
-      });
-    }, 1000);
-  }
+    renderData: function () {
+        return new Promise((resolve) => {
+            let response = "";
+            jirasObject.forEach((object) => {
+                const { link, title } = object;
+                response += `<li>
+                <a href="${link}">${title}</a>
+                </li>`;
+            });
+            resolve(response);
+            console.log(response);
+        });
+    }
 }
-
-modalButton.addEventListener("click", function () {
-  if (dataLoaded === true) {
-    return;
-  }
-  console.log("Clicked Button!");
-  modalContainer.classList.toggle("hidden");
-  utils.loadData();
-});
-
-closeModalButton[0].addEventListener("click", function () {
-  console.log("Clicked Close Modal Button!");
-  modalContainer.classList.toggle("hidden");
-});
-
-const jirasObject = [];
-for (let i = 0; i < jiraHandler.titles.length; i++) {
-  jirasObject.push({
-    link: jiraHandler.links[i],
-    title: jiraHandler.titles[i],
-    ...jiraTemplate,
-  });
-}
+utils.renderData();
