@@ -24,7 +24,18 @@ const jiraLinks = [
   "https://totalwine.atlassian.net/browse/TT-19",
 ];
 
-const jiraTemplate = {icon: "bi bi-check-circle-fill"};
+const jiraTemplate = { icon: "bi bi-check-circle-fill" };
+
+const errorJiraTemplate = { icon: "bi bi-x-circle" };
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
+function getIcon() {
+  let rNum = getRandomInt(3);
+  return rNum >= 1 ? jiraTemplate : errorJiraTemplate;
+}
 
 const iterateJiraLinks = jiraLinks.forEach((link) => {
   console.log(link);
@@ -43,10 +54,11 @@ class JiraHandler {
   }
     createJiraObject() {
       for (let i = 0; i < this.titles.length; i++) {
+        let icon = getIcon();
         this.jirasObject.push({
           link: this.links[i],
           title: this.titles[i],
-          ...jiraTemplate,
+          ...icon,
         });
       }
     }
@@ -97,9 +109,10 @@ closeModalButton[0].addEventListener("click", function () {
 
 const jirasObject = [];
 for (let i = 0; i < jiraHandler.titles.length; i++) {
+  let icon = getIcon();
   jirasObject.push({
     link: jiraHandler.links[i],
     title: jiraHandler.titles[i],
-    ...jiraTemplate,
+    ...icon,
   });
 }
