@@ -29,6 +29,24 @@ const jirasObject = [
   }
 ];
 
+const openModalButton = document.querySelector("#modalButton");
+
+const closeModalButton = document.querySelector("#closeModalButton");
+
+const modalContainer = document.querySelector("#modalContainer");
+
+const jiraList = document.querySelector("#jiraList");
+
+openModalButton.addEventListener("click", () => {
+    modalContainer.classList.remove("hidden");
+    setTimeout(() => {
+      utils.renderData().then((response) => {
+        jiraList.innerHTML = response;
+    });
+      modalContainer.classList.add("hidden");
+    }, 1000);
+});
+
 const utils = {
     renderData: function () {
         return new Promise((resolve) => {
@@ -44,4 +62,3 @@ const utils = {
         });
     }
 }
-utils.renderData();
