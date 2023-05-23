@@ -43,8 +43,6 @@ const iterateJiraLinks = jiraLinks.forEach((link) => {
 
 var listElement = document.getElementsByClassName("grid-container");
 
-let dataLoaded = false;
-
 class JiraHandler {
   constructor(links, titles) {
     this.links = links;
@@ -52,26 +50,40 @@ class JiraHandler {
     this.jirasObject = [];
     this.createJiraObject();
   }
-    createJiraObject() {
-      for (let i = 0; i < this.titles.length; i++) {
-        let icon = getIcon();
-        this.jirasObject.push({
-          link: this.links[i],
-          title: this.titles[i],
-          ...icon,
-        });
-      }
+  createJiraObject() {
+    for (let i = 0; i < this.titles.length; i++) {
+      let icon = getIcon();
+      this.jirasObject.push({
+        link: this.links[i],
+        title: this.titles[i],
+        ...icon,
+      });
     }
+  }
 }
 
 const jiraHandler = new JiraHandler(jiraLinks, jiraTitles);
+
+function initModalButton() {
+  var dataLoaded = false;
+  modalButton.addEventListener("click", function () {
+    if (dataLoaded === true) {
+      return;
+    }
+    console.log("Clicked Button!");
+    modalContainer.classList.toggle("hidden");
+    utils.loadData(() => {
+      dataLoaded = true;
+    });
+  });
+}
 
 const utils = {
   renderData: function () {
     return new Promise((resolve) => {
       let response = "";
       jirasObject.forEach((object) => {
-        const { link, title, icon} = object;
+        const { link, title, icon } = object;
         response += `<li>
             <i class="${icon}"></i>
             <a href="${link}">${title}</a>
@@ -80,7 +92,8 @@ const utils = {
       resolve(response);
     });
   },
-  loadData: function () {
+  loadData: function (callback) {
+    callback();
     setTimeout(function () {
       utils.renderData().then((response) => {
         dataLoaded = true;
@@ -90,17 +103,8 @@ const utils = {
         return response;
       });
     }, 1000);
-  }
-}
-
-modalButton.addEventListener("click", function () {
-  if (dataLoaded === true) {
-    return;
-  }
-  console.log("Clicked Button!");
-  modalContainer.classList.toggle("hidden");
-  utils.loadData();
-});
+  },
+};
 
 closeModalButton[0].addEventListener("click", function () {
   console.log("Clicked Close Modal Button!");
@@ -116,3 +120,5 @@ for (let i = 0; i < jiraHandler.titles.length; i++) {
     ...icon,
   });
 }
+
+initModalButton();
