@@ -1,3 +1,5 @@
+(async function() {
+
 console.log("Engineering Training!");
 
 const modalButton = document.getElementById("modalButton");
@@ -65,15 +67,17 @@ class JiraHandler {
 const jiraHandler = new JiraHandler(jiraLinks, jiraTitles);
 
 function initModalButton() {
-  var dataLoaded = false;
-  modalButton.addEventListener("click", function () {
-    if (dataLoaded === true) {
-      return;
-    }
-    console.log("Clicked Button!");
-    modalContainer.classList.toggle("hidden");
-    utils.loadData(() => {
-      dataLoaded = true;
+  return new Promise((resolve) => {
+    var dataLoaded = false;
+    modalButton.addEventListener("click", function () {
+      modalContainer.classList.toggle("hidden");
+      console.log("Clicked Button!");
+      if (dataLoaded === false) {
+        utils.loadData(() => {
+          resolve();
+          dataLoaded = true;
+        });
+      }
     });
   });
 }
@@ -93,7 +97,6 @@ const utils = {
     });
   },
   loadData: function (callback) {
-    callback();
     setTimeout(function () {
       utils.renderData().then((response) => {
         dataLoaded = true;
@@ -103,6 +106,7 @@ const utils = {
         return response;
       });
     }, 1000);
+    callback();
   },
 };
 
@@ -121,4 +125,8 @@ for (let i = 0; i < jiraHandler.titles.length; i++) {
   });
 }
 
-initModalButton();
+console.log("BEFORE initModalButton is called");
+await initModalButton();
+console.log("AFTER initModalButton is called");
+
+})();
