@@ -96,7 +96,10 @@ const utils = {
       resolve(response);
     });
   },
-  loadData: function (callback) {
+  loadData: async function (callback) {
+    const response = await fetch("/getJiraTickets");
+    const data = await response.json();
+    console.log("data", data);
     setTimeout(function () {
       utils.renderData().then((response) => {
         dataLoaded = true;
