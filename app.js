@@ -3,13 +3,14 @@ const path = require('path');
 const app = express();
 const port = 3000;
 const router = express.Router();
+const dataHandler = require('./dataHandler');
 
 router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname+'/index.html'));
 });
 
-router.get("/getJiraTickets", (req, res) => {
-  res.json({ jirasObject: [] });
+router.get("/dataHandler", (req, res) => {
+  res.json({jirasObject:dataHandler.jirasObject});
 });
 
 app.use('/', router);
