@@ -1,3 +1,30 @@
+const { Octokit } = require("@octokit/rest");
+const { response } = require('express');
+
+const octokit = new Octokit({ 
+  auth: process.env.GITHUB_TOKEN,
+  baseUrl: 'https://api.github.com',
+  log: {
+      debug: () => {},
+      info: () => {},
+      warn: console.warn,
+      error: console.error
+  },
+  request: {
+      agent: undefined,
+      fetch: undefined,
+      timeout: 0
+  }
+});
+
+octokit.rest.repos.listCommits({
+  owner: "aindrokov",
+  repo: "engineering-training",
+})
+.then((response) => {
+  console.log(response);
+});
+
 const jiraTitles = [
   "Create a public repository under your GitHub account",
   "Create a new script file, and import it into index.html and add a console log",

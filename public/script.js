@@ -29,7 +29,7 @@ const utils = {
     const response = await fetch("/dataHandler");
     const data = await response.json();
     console.log(data);
-
+    setTimeout(() => {
     this.renderData(data).then((response) => {
       dataLoaded = true;
       listElement[0].innerHTML = response;
@@ -37,6 +37,7 @@ const utils = {
       console.log("data loaded");
       return response;
     });
+  }, 1000);
     callback();
   },
   renderData: function (data) {
