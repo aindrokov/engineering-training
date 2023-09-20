@@ -1,5 +1,4 @@
 const { Octokit } = require("@octokit/rest");
-const { response } = require('express');
 
 const octokit = new Octokit({ 
   auth: process.env.GITHUB_TOKEN,
@@ -15,14 +14,6 @@ const octokit = new Octokit({
       fetch: undefined,
       timeout: 0
   }
-});
-
-octokit.rest.repos.listCommits({
-  owner: "aindrokov",
-  repo: "engineering-training",
-})
-.then((response) => {
-  console.log(response);
 });
 
 const jiraTitles = [
@@ -60,6 +51,7 @@ class DataHandler {
     this.titles = titles;
     this.jirasObject = [];
     this.createJiraObject();
+    this.fetchGitHubData();
   }
   createJiraObject() {
     for (let i = 0; i < this.titles.length; i++) {
@@ -71,6 +63,25 @@ class DataHandler {
       });
     }
   }
+
+  fetchGitHubData() {
+    return new Promise((resolve) => {
+
+      const octokit = new Octokit({
+        auth: process.env.GITHUB_TOKEN,
+      });
+      octokit.rest.repos.listCommits({
+        owner: "aindrokov",
+        repo: "engineering-training",
+      })
+      .then((response) => {
+        for (let index = 0; index < 20; index++) {
+        console.log("Commit Message: ", response.data[index].commit.message);
+        }
+      });
+      resolve();
+    });
+  }   
 }
 const dataHandler = new DataHandler(jiraLinks, jiraTitles);
 
