@@ -1,4 +1,5 @@
 const { Octokit } = require("@octokit/rest");
+const JiraApi = require('jira-client');
 
 const octokit = new Octokit({ 
   auth: process.env.GITHUB_TOKEN,
@@ -83,6 +84,25 @@ class DataHandler {
     });
   }   
 }
+
+var jira = new JiraApi({
+  protocol: "https",
+  host: "totalwine.atlassian.net",
+  username: process.env.JIRA_USERNAME,
+  password: process.env.JIRA_TOKEN,
+  apiVersion: "2",
+  strictSSL: true,
+});
+
+jira
+  .findIssue("TT-139")
+  .then(function (issue) {
+    console.log("Status: " + issue.fields.status.name);
+  })
+  .catch(function (err) {
+    console.error(err);
+  });
+
 const dataHandler = new DataHandler(jiraLinks, jiraTitles);
 
 module.exports = dataHandler;
