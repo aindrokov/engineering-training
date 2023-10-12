@@ -65,24 +65,33 @@ class DataHandler {
     }
   }
 
-  fetchGitHubData() {
-    return new Promise((resolve) => {
-
+  async fetchGitHubData() {
+    return new Promise(async (resolve) => {
       const octokit = new Octokit({
         auth: process.env.GITHUB_TOKEN,
       });
-      octokit.rest.repos.listCommits({
-        owner: "aindrokov",
-        repo: "engineering-training",
-      })
-      .then((response) => {
-        for (let index = 0; index < 20; index++) {
-        console.log("Commit Message: ", response.data[index].commit.message);
-        }
-      });
-      resolve();
+      octokit.rest.repos
+        .listCommits({
+          owner: "aindrokov",
+          repo: "engineering-training",
+        })
+        .then((response) => {
+          let jiraTicketNumber = [];
+          const regex = /([A-Z][A-Z0-9]+-[0-9]+)/g;
+          for (let index = 0; index < 20; index++) {
+            let ticketNumber = response.data[index].commit.message.match(regex);
+            let i = jiraTicketNumber.indexOf(ticketNumber);
+
+            if (ticketNumber !== null && i === -1) {
+              jiraTicketNumber.push(ticketNumber);
+            } else {
+              console.log(jiraTicketNumber + " Jira ticket duplicates");
+            }
+          }
+          console.log(jiraTicketNumber);
+        });
     });
-  }   
+  }
 }
 
 var jira = new JiraApi({
@@ -95,7 +104,7 @@ var jira = new JiraApi({
 });
 
 jira
-  .findIssue("TT-139")
+  .findIssue("DIG-80202")
   .then(function (issue) {
     console.log("Status: " + issue.fields.status.name);
   })
