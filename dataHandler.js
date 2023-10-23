@@ -1,4 +1,7 @@
+require("dotenv").config();
+
 const { Octokit } = require("@octokit/rest");
+const { application } = require("express");
 const JiraApi = require('jira-client');
 
 const octokit = new Octokit({ 
@@ -16,6 +19,28 @@ const octokit = new Octokit({
       timeout: 0
   }
 });
+
+var jira = new JiraApi({
+  protocol: "https",
+  host: "totalwine.atlassian.net",
+  username: process.env.JIRA_USERNAME,
+  password: process.env.JIRA_TOKEN,
+  apiVersion: "2",
+  strictSSL: true,
+});
+
+async function getJiraSummaryInfo(issueNumber) {
+  return new Promise(async (resolve) => {
+    const issue = await jira.findIssue(issueNumber);
+    resolve(issue);
+  })
+  .then((issue) => {
+    console.log("Summary: " + issue.fields.summary);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+}
 
 const jiraTitles = [
   "Create a public repository under your GitHub account",
@@ -53,6 +78,7 @@ class DataHandler {
     this.jirasObject = [];
     this.createJiraObject();
     this.fetchGitHubData();
+    this.getJiraInfo();
   }
   createJiraObject() {
     for (let i = 0; i < this.titles.length; i++) {
@@ -67,50 +93,36 @@ class DataHandler {
 
   async fetchGitHubData() {
     return new Promise(async (resolve) => {
-      const octokit = new Octokit({
-        auth: process.env.GITHUB_TOKEN,
-      });
-      octokit.rest.repos
-        .listCommits({
-          owner: "aindrokov",
-          repo: "engineering-training",
-        })
-        .then((response) => {
-          let jiraTicketNumber = [];
-          const regex = /([A-Z][A-Z0-9]+-[0-9]+)/g;
-          for (let index = 0; index < 20; index++) {
-            let ticketNumber = response.data[index].commit.message.match(regex);
-            let i = jiraTicketNumber.indexOf(ticketNumber);
+      const commits = new Octokit ( octokit.rest.repos.listCommits({
+        owner: "aindrokov",
+        repo: "Engineering-Training",
+      }));
+      resolve(commits);
+    });
+  }
+  getJiraInfo() {
+    this.fetchGitHubData().then((listMyCommits) => {
+      let jiraTicketNumber = [];
+      const regex = /([A-Z][A-Z0-9]+-[0-9]+)/g;
+      for (let index = 0; index < listMyCommits.data.length; index++) {
+        let ticketNumber =
+          listMyCommits.data[index].commit.message.match(regex);
+        let indx = jiraTicketNumber.indexOf(ticketNumber);
 
-            if (ticketNumber !== null && i === -1) {
-              jiraTicketNumber.push(ticketNumber);
-            } else {
-              console.log(jiraTicketNumber + " Jira ticket duplicates");
-            }
-          }
-          console.log(jiraTicketNumber);
-        });
+        if (ticketNumber !== null && indx === -1) {
+          jiraTicketNumber.push(ticketNumber);
+        } else {
+          console.log(jiraTicketNumber + " Jira ticket duplicates");
+        }
+      }
+      console.log(jiraTicketNumber);
+
+      for (let i = 0; i < jiraTicketNumber.length; i++) {
+        getJiraSummaryInfo(jiraTicketNumber[i]);
+      }
     });
   }
 }
-
-var jira = new JiraApi({
-  protocol: "https",
-  host: "totalwine.atlassian.net",
-  username: process.env.JIRA_USERNAME,
-  password: process.env.JIRA_TOKEN,
-  apiVersion: "2",
-  strictSSL: true,
-});
-
-jira
-  .findIssue("DIG-80202")
-  .then(function (issue) {
-    console.log("Status: " + issue.fields.status.name);
-  })
-  .catch(function (err) {
-    console.error(err);
-  });
 
 const dataHandler = new DataHandler(jiraLinks, jiraTitles);
 
