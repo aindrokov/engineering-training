@@ -93,10 +93,10 @@ class DataHandler {
 
   async fetchGitHubData() {
     return new Promise(async (resolve) => {
-      const commits = new Octokit ( octokit.rest.repos.listCommits({
+      const commits = await octokit.rest.repos.listCommits({
         owner: "aindrokov",
         repo: "Engineering-Training",
-      }));
+      });
       resolve(commits);
     });
   }
