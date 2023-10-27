@@ -32,14 +32,9 @@ var jira = new JiraApi({
 async function getJiraSummaryInfo(issueNumber) {
   return new Promise(async (resolve) => {
     const issue = await jira.findIssue(issueNumber);
-    resolve(issue);
+    const jiraIssue = { title: issue.fields.summary, link: `https://totalwine.atlassian.net/browse/${issueNumber}` };
+    resolve(jiraIssue);
   })
-  .then((issue) => {
-    console.log("Summary: " + issue.fields.summary);
-  })
-  .catch((err) => {
-    console.error(err);
-  });
 }
 
 const jiraTitles = [
@@ -61,6 +56,8 @@ const jiraLinks = [
 const jiraTemplate = { icon: "bi bi-check-circle-fill" };
 
 const errorJiraTemplate = { icon: "bi bi-x-circle" };
+
+const promises = [];
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
@@ -118,8 +115,11 @@ class DataHandler {
       console.log(jiraTicketNumber);
 
       for (let i = 0; i < jiraTicketNumber.length; i++) {
-        getJiraSummaryInfo(jiraTicketNumber[i]);
+        promises.push(getJiraSummaryInfo(jiraTicketNumber[i]));
       }
+      Promise.all(promises).then((values) => {
+        console.log(values); 
+      });
     });
   }
 }
