@@ -10,7 +10,11 @@ router.get('/', (req, res) => {
 });
 
 router.get("/dataHandler", (req, res) => {
-  res.json({jirasObject:dataHandler.jirasObject});
+  //res.json({jirasObject:dataHandler.jirasObject});
+  dataHandler.getJiraInfo().then((values) => {
+    console.log(values);
+    res.json({jirasObject:values});
+  });
 });
 
 app.use('/', router);
