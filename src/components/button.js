@@ -24,7 +24,7 @@ export default class Button extends React.Component {
   render() {
     return (
       <button onClick={this.handleOnClick}>
-        {this.state.dataLoaded ? "LOADED" : "LOAD"}
+        {this.state.dataLoaded ? "Loaded" : "Open Modal"}
       </button>
     );
   }
