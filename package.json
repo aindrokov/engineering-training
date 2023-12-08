@@ -25,9 +25,11 @@
   "homepage": "https://github.com/aindrokov/engineering-training#readme",
   "dependencies": {
     "@octokit/rest": "^20.0.1",
+    "@reduxjs/toolkit": "^2.0.1",
     "express": "^4.18.2",
     "jira-client": "^8.2.2",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "react-redux": "^9.0.2"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.23.3",
