@@ -8,8 +8,6 @@ const utils = {
     setTimeout(() => {
       this.renderData(data).then((response) => {
         listElement[0].innerHTML = response;
-        modalContainer.classList.toggle("hidden");
-        console.log("data loaded");
         return response;
       });
     }, 1000);

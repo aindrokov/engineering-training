@@ -84,11 +84,10 @@ class DataHandler {
           if (ticketNumber != null && indx == -1) {
             jiraTicketNumber.push(ticketNumber);
           } else {
-            this.console.log(jiraTicketNumber + " Jira ticket duplicates");
+        
           }
         }
         console.log(jiraTicketNumber);
-
         for (let i = 0; i < jiraTicketNumber.length; i++) {
           promises.push(getJiraSummaryInfo(jiraTicketNumber[i]));
         }

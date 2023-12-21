@@ -5,12 +5,18 @@ const INITIAL_STATE = {
 function dataLoadedReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case "TOGGLE_DATALOADED":
-        return {
-          ...state,
-          dataLoaded: !state.dataLoaded,
-        };
-      default:
-        return state.dataLoaded
+      return {
+        ...state,
+        dataLoaded: !state.dataLoaded,
+        loading: false,
+      };
+    default:
+      return state;
+    case "DATA_LOADING":
+      return {
+        ...state,
+        loading: action.loading,
+      };
   }
 }
 
