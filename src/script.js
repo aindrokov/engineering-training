@@ -5,12 +5,14 @@ import utils from './utils';
 import { Provider } from 'react-redux';
 import store from './store';
 import Modal from './components/modal';
+import Logo from './components/logo';
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <Provider store={store}>
     <Button/>
     <Modal/>
+    <Logo/>
   </Provider>
 );
 
