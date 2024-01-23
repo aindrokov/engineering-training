@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 import Modal from './components/modal';
 import Logo from './components/logo';
+import List from './components/list';
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
@@ -13,6 +14,7 @@ root.render(
     <Button/>
     <Modal/>
     <Logo/>
+    <List/>
   </Provider>
 );
 
