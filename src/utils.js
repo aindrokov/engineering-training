@@ -1,29 +1,22 @@
-const listElement = document.getElementsByClassName("grid-container");
+import store from "./store.js";
 
 const utils = {
-  loadData: async function (callback) {
-    const response = await fetch("/dataHandler");
-    const data = await response.json();
-    console.log(data);
-    setTimeout(() => {
-      this.renderData(data).then((response) => {
-        listElement[0].innerHTML = response;
-        return response;
+  renderData: async function () {
+    return new Promise(async (resolve) => {
+      const apiResponse = await fetch("/dataHandler").catch(() => {
       });
-    }, 1000);
-    callback();
+      if (!apiResponse || !apiResponse.json) {
+        return;
+      }
+      apiResponse.json().then((data) => {
+        store.dispatch({ type: "DATA_SUCCESS", data });
+        resolve(data);
+      });
+    });
   },
-  renderData: function (data) {
-    return new Promise((resolve) => {
-      let response = "";
-      data.jirasObject.forEach((object) => {
-        let { link, title, icon } = object;
-        response += `<li class="item"><a href= ${link}> 
-        <i class="${icon}">
-        </i> ${title} 
-        </a></li>`;
-      });
-      resolve(response);
+  loadData: function (callback) {
+    this.renderData().then((response) => {
+      callback(response);
     });
   },
 };
