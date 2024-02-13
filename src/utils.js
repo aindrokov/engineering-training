@@ -3,7 +3,8 @@ import store from "./store.js";
 const utils = {
   renderData: async function () {
     return new Promise(async (resolve) => {
-      const apiResponse = await fetch("/dataHandler").catch(() => {
+      const apiResponse = await fetch("/dataHandler").catch((err) => {
+        store.dispatch({ type: "DATA_FAILURE", error: err.message  });
       });
       if (!apiResponse || !apiResponse.json) {
         return;
